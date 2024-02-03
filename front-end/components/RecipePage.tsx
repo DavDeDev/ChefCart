@@ -1,6 +1,8 @@
-import { ScrollView, Text, Image, ImageBackground, Button, View, Icon, ChevronLeftIcon, ButtonText, HStack } from '@gluestack-ui/themed';
+import { ScrollView, Text, Image, ImageBackground, Button, View, Icon, ChevronLeftIcon, ButtonText, HStack, createIcon, ButtonIcon } from '@gluestack-ui/themed';
 import {  Recipe, Headers, Info, Additionals } from './DataModel';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet } from 'react-native';
+import { Path, Circle } from 'react-native-svg';
 import { useState } from 'react';
 
 interface Props {
@@ -14,6 +16,18 @@ interface EntryProps {
 }
 
 export default function RecipePage({ recipe }: Props) {
+    const cartIcon = createIcon({
+        viewBox: "0 0 24 24",
+        path: (
+            <>
+                <Path d="M4 4H5.62563C6.193 4 6.47669 4 6.70214 4.12433C6.79511 4.17561 6.87933 4.24136 6.95162 4.31912C7.12692 4.50769 7.19573 4.7829 7.33333 5.33333L7.51493 6.05972C7.616 6.46402 7.66654 6.66617 7.74455 6.83576C8.01534 7.42449 8.5546 7.84553 9.19144 7.96546C9.37488 8 9.58326 8 10 8V8" stroke="rgba(249, 245, 237, 0.8)" stroke-width="2" stroke-linecap="round"/>
+                <Path d="M18 17H7.55091C7.40471 17 7.33162 17 7.27616 16.9938C6.68857 16.928 6.28605 16.3695 6.40945 15.7913C6.42109 15.7367 6.44421 15.6674 6.49044 15.5287V15.5287C6.54177 15.3747 6.56743 15.2977 6.59579 15.2298C6.88607 14.5342 7.54277 14.0608 8.29448 14.0054C8.3679 14 8.44906 14 8.61137 14H14" stroke="rgba(249, 245, 237, 0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <Path d="M15.7639 14H9.69425C8.71658 14 7.8822 13.2932 7.72147 12.3288L7.2911 9.7466C7.13872 8.8323 7.84378 8 8.77069 8H18.382C19.1253 8 19.6088 8.78231 19.2764 9.44721L17.5528 12.8944C17.214 13.572 16.5215 14 15.7639 14Z" stroke="rgba(249, 245, 237, 0.8)" stroke-width="2" stroke-linecap="round"/>
+                <Circle cx="17" cy="20" r="1" fill="rgba(249, 245, 237, 0.8)"/>
+                <Circle cx="9" cy="20" r="1" fill="rgba(249, 245, 237, 0.8)"/>
+            </>
+        )
+    })
     return (
         <View style={styles.page}>
             <RecipeNav recipe={recipe}/>
@@ -21,6 +35,9 @@ export default function RecipePage({ recipe }: Props) {
                 <RecipeHeader recipe={recipe}/>
                 <RecipeContent recipe={recipe}/>
             </ScrollView>
+            <Button style={styles.cartButton}>
+                <Icon as={cartIcon} style={{width: 50, height: 50}}/>
+            </Button>
         </View>
     )
 }
@@ -93,14 +110,23 @@ function RecipeHeader({ recipe }: Props) {
 
 function RecipeNav({ recipe }: Props) {
     const [isPressed, setIsPressed] = useState(false)
-    const handleSave = () => {
-        setIsPressed(true)
+    const [hasSaved, setHasSaved] = useState(false)
+    const handleSave = async () => {
+        let currNumRecipe = await AsyncStorage.getItem('NumRecipe')
+        if (currNumRecipe === null || hasSaved)
+            return;
+
+        await AsyncStorage.setItem('NumRecipe', '' + (parseInt(currNumRecipe) + 1))
+        await AsyncStorage.setItem(currNumRecipe, JSON.stringify(recipe))
+        setHasSaved(true)
     }
+
     return (
         <View style={styles.navbar}>
             <Icon as={ChevronLeftIcon} size='xl'/>
             <Button size='md' style={{borderRadius: 100, backgroundColor: isPressed ? 'rgba(64, 64, 64, 0.7)' : '#404040'}}
                 onPressIn={() => setIsPressed(true)}
+                onPress={handleSave}
                 onPressOut={() => setIsPressed(false)}>
                 <ButtonText> Save </ButtonText>
             </Button> 
@@ -183,5 +209,16 @@ const styles = StyleSheet.create({
     recipeParagraph: {
         fontSize: 16,
         paddingLeft: 12
+    },
+    cartButton: {
+        width: 65,
+        height: 65,
+        position: 'absolute',
+        top: 800,
+        left: '85%',
+        borderRadius: 1000,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderColor: 'rgba(249, 245, 237, 0.8)',
+        borderWidth: 2,
     }
 })
