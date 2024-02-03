@@ -1,7 +1,8 @@
+from typing import List
 from pydantic import BaseModel
 import collection.additionals as adds
 
 class Headers(BaseModel):
-    ingredients: list(str)
-    instructions: list(str)
-    additionals: list(adds.Additionals)
+    ingredients: List[str]
+    instructions: List[str]
+    additionals: List[adds.Additionals]

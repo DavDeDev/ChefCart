@@ -1,5 +1,6 @@
+from typing import List
 from pydantic import BaseModel
 
 class Additionals(BaseModel):
     name: str
-    content: list(str)
+    content: List[str]
