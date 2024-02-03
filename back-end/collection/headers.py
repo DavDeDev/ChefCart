@@ -1,13 +1,9 @@
 from pydantic import BaseModel
-import additionals.additionals as additionals
-import ingredients 
-import instructions 
+import additionals
 
-ings = ingredients.Ingredients
-instcs = instructions.Instructions
 adds = additionals.Additionals
 
 class Headers(BaseModel):
-    ingredients: ings
-    instructions: instcs
+    ingredients: list(str)
+    instructions: list(str)
     additionals: list(adds)
