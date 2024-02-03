@@ -11,7 +11,7 @@ import recipe
 async def root():
     return {"message": "Hello World"}
 
-@app.put("recipe")
+@app.put("/recipe")
 def update_item(item: recipe):
     json_compatible_item_data = jsonable_encoder(item)
     return JSONResponse(content=json_compatible_item_data)
