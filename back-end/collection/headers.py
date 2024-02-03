@@ -10,4 +10,4 @@ adds = additionals.Additionals
 class Headers(BaseModel):
     ingredients: ings
     instructions: instcs
-    additional: adds
+    additionals: list(adds)
