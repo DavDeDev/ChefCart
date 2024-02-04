@@ -1,13 +1,10 @@
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
-
 import firebase_admin
 import api_key
 from firebase_admin import credentials
 from firebase_admin import db
-
 import recipe
+import chat
 
 cred = credentials.Certificate(api_key.api_key())
 
@@ -16,9 +13,6 @@ default_app = firebase_admin.initialize_app(cred, {
 })
 
 ref = db.reference('/some_resource')
-# print(ref.get())
-
-# snapshot = ref.order_by_key().get()
 
 app = FastAPI()
 
@@ -26,11 +20,18 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/recipe")
+@app.get("/recipe_test")
 async def root():
     return ref.order_by_key().get()
 
-# @app.put("/recipe")
-# def update_item(item: recipe.Recipe):
-#     json_compatible_item_data = jsonable_encoder(item)
-#     return JSONResponse(content=json_compatible_item_data)
+@app.post("/recipe")
+async def create_item(recipe: recipe.Recipe):
+    result = ", ".join(recipe.headers.ingredients)
+    grocerylist = chat.groceries(result)
+    groceries = comma(grocerylist)
+    return {"content": groceries}
+
+def comma(entry):
+    if "," or ", " or "." or ". " in entry: 
+        text = entry.split(", ")
+    return text
