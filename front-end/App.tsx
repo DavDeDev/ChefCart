@@ -1,14 +1,24 @@
 import { config } from '@gluestack-ui/config';
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import RecipePage from './components/RecipePage';
-import { exampleRecipe } from './components/DataModel';
+import GroceryPage from './components/GroceryPage';
+import { exampleRecipe, Recipe, StackParamList } from './components/DataModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   resetStorage()
   return (
     <GluestackUIProvider config={config}>
-      <RecipePage recipe={exampleRecipe}/>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='RecipePage' screenOptions={{headerShown: false}}>
+          <Stack.Screen name="RecipePage" component={RecipePage} initialParams={{recipe: exampleRecipe}}/>
+          <Stack.Screen name="GroceryPage" component={GroceryPage}/>
+        </Stack.Navigator>
+      </NavigationContainer>
     </GluestackUIProvider>
   );
 }

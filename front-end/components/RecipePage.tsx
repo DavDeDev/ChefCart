@@ -1,5 +1,5 @@
 import { ScrollView, Text, Image, ImageBackground, Button, View, Icon, ChevronLeftIcon, ButtonText, HStack, createIcon, ButtonIcon } from '@gluestack-ui/themed';
-import {  Recipe, Headers, Info, Additionals } from './DataModel';
+import {  Recipe, Headers, Info, Additionals, RecipeProps, exampleGrocery } from './DataModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet } from 'react-native';
 import { Path, Circle } from 'react-native-svg';
@@ -15,7 +15,8 @@ interface EntryProps {
     isNumbered: boolean
 }
 
-export default function RecipePage({ recipe }: Props) {
+export default function RecipePage({route, navigation}: RecipeProps) {
+    const recipe = route.params.recipe
     const cartIcon = createIcon({
         viewBox: "0 0 24 24",
         path: (
@@ -28,14 +29,17 @@ export default function RecipePage({ recipe }: Props) {
             </>
         )
     })
+
     return (
         <View style={styles.page}>
             <RecipeNav recipe={recipe}/>
+
             <ScrollView>
                 <RecipeHeader recipe={recipe}/>
                 <RecipeContent recipe={recipe}/>
             </ScrollView>
-            <Button style={styles.cartButton}>
+
+            <Button style={styles.cartButton} onPress={() => navigation.navigate('GroceryPage', { grocery: exampleGrocery })}>
                 <Icon as={cartIcon} style={{width: 50, height: 50}}/>
             </Button>
         </View>

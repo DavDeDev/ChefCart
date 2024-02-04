@@ -1,3 +1,4 @@
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 interface Additionals {
     name: string,
     content: string[]
@@ -22,6 +23,17 @@ interface Recipe {
     info: Info,
     headers: Headers,
 }
+
+interface Grocery {
+    items: string[]
+}
+
+type StackParamList = {
+  RecipePage: { recipe: Recipe },
+  GroceryPage: { grocery: Grocery }
+};
+type RecipeProps = NativeStackScreenProps<StackParamList, 'RecipePage'>;
+type GroceryProps = NativeStackScreenProps<StackParamList, 'GroceryPage'>;
 
 let exampleRecipe: Recipe = {
     name: "Char Siu",
@@ -54,5 +66,23 @@ let exampleRecipe: Recipe = {
     }
 }
 
-export type { Recipe, Headers, Info, Additionals };
-export { exampleRecipe };
+let exampleGrocery: Grocery = {
+    items: [
+        "3 pounds boneless pork shoulder/pork butt",
+        "Granulated white sugar",
+        "Salt",
+        "Five spice powder",
+        "White pepper",
+        "Sesame oil",
+        "Shaoxing rice wine",
+        "Soy sauce",
+        "Hoisin sauce",
+        "Molasses",
+        "Red food coloring (optional)",
+        "Cloves of garlic",
+        "Maltose or honey"
+    ]
+}
+
+export type { Recipe, Headers, Info, Additionals, Grocery, RecipeProps, GroceryProps, StackParamList };
+export { exampleRecipe, exampleGrocery };
