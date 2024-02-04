@@ -273,10 +273,42 @@ json5 = {
         'additionals': []
     }
 }
+
+json6 = {
+    'name': 'Simple Green Salad',
+    'description': 'This simple green salad is light, refreshing, and delicious! It\'s a perfect side salad, as it pairs well with almost anything.',
+    'photo': 'https://cdn.loveandlemons.com/wp-content/uploads/2021/04/green-salad-recipes.jpg',
+    'info': {
+        'prep': '15 mins',
+        'cook': '14 mins',
+        'total': '30 mins',
+    },
+    'headers': {
+        'ingredients': [
+            '2 small heads of soft lettuce, butter lettuce or similar',
+            'Lemon Vinaigrette, half recipe',
+            '1 Persian cucumber, thinly sliced',
+            '¼ cup shaved Parmesan cheese',
+            '2 tablespoons pepitas',
+            '1 avocado, thinly sliced',
+            '¼ cup microgreens',
+            'Flaky sea salt, optional'
+        ],
+
+        'instructions': [
+            'Roast the almonds: Preheat the oven to 350°F and line a baking sheet with parchment paper. Place the almonds on the sheet and toss with tamari. Bake for 10 to 14 minutes or until browned. Remove from the oven and let cool for 5 minutes.',
+            'Assemble the salad. In a large bowl toss the lettuce with a few spoonfuls of the dressing. Add the cucumber, parmesan, pepitas, avocado, and tamari almonds. Drizzle with more dressing and top with microgreens. Season to taste with flaky sea salt, if desired.'
+        ],
+
+        'additionals': []
+    }
+}
 recipes_ref.set({
     '0': recipes_json,
     '1': caprese_json,
     '2': json2,
     '3': json3,
     '4': json4,
+    '5': json5,
+    '6': json6,
 })
