@@ -1,36 +1,24 @@
-# import openai
-# import os
-# import sys
+from openai import OpenAI
+import os
+import sys
 
-# # def api_key():
-# #     try:  
-# #         key = os.environ['API_KEY_CREDENTIALS']
-# #         return key
-# #     except KeyError: 
-# #         print('[error]: `API_KEY_CREDENTIALS` environment variable required')
-# #         sys.exit(1)
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=
+)
 
-# openai.api_key = "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"
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "give me the grocery list from this recipe: pizza",
+        }
+    ],
+    model="gpt-3.5-turbo-0125",
+)
 
-# model_engine = "gpt-3.5-turbo"
-# prompt = "Hi, how are you today?"
+# print (chat_completion)
 
-# completion = openai.completions.create(
-#     model=model_engine,
-#     prompt=prompt,
-#     max_tokens=1024,
-#     n=1,
-#     stop=None,
-#     temperature=0.5,
-# )
-
-# response = completion.choices[0].text
-# print(response)
-
-# from openai import OpenAI
-# client = OpenAI()
-
-# response = client.completions.create(
-#   model="gpt-3.5-turbo-0125",
-#   prompt="How are you today?"
-# )
+# for chunk in chat_completion:
+#     if chunk.choices[0].delta.content is not None:
+print(chat_completion.choices[0].message.content, end="")
