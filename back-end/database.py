@@ -1,16 +1,23 @@
 from firebase_admin import db
 
+
+import firebase_admin
+import api_key
+from firebase_admin import credentials
+from firebase_admin import db
+
 ref = db.reference("/some_resource")
 
 recipes_ref = ref.child('recipes')
 recipes_json = {
     'name': 'char siu',
-    'description': 'poop',
-    'photo': 'picture.png',
+    'description': 'Char siu, or Chinese BBQ Pork, is a delicious Cantonese roast meat. \
+        Make authentic Chinatown char siu at home with our restaurant-quality recipe!',
+    'photo': 'https://thewoksoflife.com/wp-content/uploads/2019/04/char-siu-recipe-11-340x226.jpg',
     'info': {
-        'prep': 'prep',
-        'cook': 'cook',
-        'total': 'total',
+        'prep': '10 minutes',
+        'cook': '50 minutes',
+        'total': '1 hour',
     },
     'headers': {
         'ingredients': [
@@ -55,9 +62,47 @@ recipes_json = {
     }
 }
 
+caprese_json = {
+    'name': 'caprese',
+    'description': 'A good Caprese salad relies on good ingredients, so seek out the best tomatoes, \
+        basil, and fresh mozzarella you can find to make this delicious summer salad.',
+    'photo': 'https://cdn.loveandlemons.com/wp-content/uploads/2019/08/caprese-salad-recipe-1-1080x1080.jpg',
+    'info': {
+        'prep': '10 minutes',
+        'cook': '0 minutes',
+        'total': '10 minutes',
+    },
+    'headers': {
+        'ingredients': [
+            '3 to 4 medium heirloom tomatoes, sliced',
+            '1 (8-ounce) ball fresh mozzarella, sliced',
+            'Fresh basil leaves',
+            'Extra-virgin olive oil, for drizzling',
+            'Flaky sea salt and freshly ground black pepper'
+        ],
+
+        'instructions': [
+            "Arrange the tomatoes, mozzarella, and basil leaves on a platter. Drizzle with olive oil and sprinkle with sea salt and freshly ground black pepper."
+            "If desired, add ingredients from the variations list."
+        ],
+
+        'additionals': [{
+            'name': 'optional',
+            'content': [
+                'Drizzle of balsamic vinegar or reduced balsamic',
+                'Dollops of pesto',
+                'Sliced peaches',
+                'Mint leaves',
+                'Avocado slices',
+                'Strawberries'
+                ]
+        }]
+    }
+}
 
 recipes_ref.set({
-    'recipe_test': recipes_json
+    '0': recipes_json,
+    '1': caprese_json
 })
 
 
