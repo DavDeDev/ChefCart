@@ -1,7 +1,6 @@
 from firebase_admin import db
 
 ref = db.reference("/some_resource")
-print(ref.get())
 
 recipes_ref = ref.child('recipes')
 recipes_json = {
