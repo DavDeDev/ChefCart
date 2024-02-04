@@ -30,10 +30,6 @@ export default function GroceryPage({ route, navigation }: GroceryProps) {
 
     return (
         <View style={styles.page}>
-            {/* <Pressable onPress={() => {console.log("Going Back"); navigation.goBack()}}>
-                <Icon  
-                    style={{position: 'absolute', right: '48%'}}/>
-            </Pressable> */}
             <Button style={{backgroundColor: 'rgba(255,255,255,0)', position: 'absolute', left: 0, top: 55}}
                 onPress={() => navigation.goBack()}>
                 <ButtonIcon as={ChevronLeftIcon} size='xl' color='black'/>

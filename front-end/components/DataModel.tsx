@@ -29,9 +29,11 @@ interface Grocery {
 }
 
 type StackParamList = {
+  HomePage: undefined,
   RecipePage: { recipe: Recipe },
   GroceryPage: { grocery: Grocery }
 };
+type HomeProps = NativeStackScreenProps<StackParamList, 'HomePage'>;
 type RecipeProps = NativeStackScreenProps<StackParamList, 'RecipePage'>;
 type GroceryProps = NativeStackScreenProps<StackParamList, 'GroceryPage'>;
 
@@ -84,5 +86,5 @@ let exampleGrocery: Grocery = {
     ]
 }
 
-export type { Recipe, Headers, Info, Additionals, Grocery, RecipeProps, GroceryProps, StackParamList };
+export type { Recipe, Headers, Info, Additionals, Grocery, RecipeProps, GroceryProps, HomeProps, StackParamList };
 export { exampleRecipe, exampleGrocery };

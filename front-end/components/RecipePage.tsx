@@ -15,7 +15,8 @@ interface EntryProps {
     isNumbered: boolean
 }
 
-export default function RecipePage({route, navigation}: RecipeProps) {
+export default function RecipePage(navProps: RecipeProps) {
+    const {route, navigation} = navProps
     const recipe = route.params.recipe
     const cartIcon = createIcon({
         viewBox: "0 0 24 24",
@@ -32,7 +33,7 @@ export default function RecipePage({route, navigation}: RecipeProps) {
 
     return (
         <View style={styles.page}>
-            <RecipeNav recipe={recipe}/>
+            <RecipeNav {...navProps}/>
 
             <ScrollView>
                 <RecipeHeader recipe={recipe}/>
@@ -112,7 +113,8 @@ function RecipeHeader({ recipe }: Props) {
     )
 }
 
-function RecipeNav({ recipe }: Props) {
+function RecipeNav({ route, navigation }: RecipeProps) {
+    const recipe = route.params.recipe
     const [isPressed, setIsPressed] = useState(false)
     const [hasSaved, setHasSaved] = useState(false)
     const handleSave = async () => {
@@ -127,7 +129,10 @@ function RecipeNav({ recipe }: Props) {
 
     return (
         <View style={styles.navbar}>
-            <Icon as={ChevronLeftIcon} size='xl'/>
+            <Button style={{backgroundColor: 'rgba(255,255,255,0)'}}
+                onPress={() => navigation.goBack()}>
+                <ButtonIcon as={ChevronLeftIcon} size='xl' color='black'/>
+            </Button>
             <Button size='md' style={{borderRadius: 100, backgroundColor: isPressed ? 'rgba(64, 64, 64, 0.7)' : '#404040'}}
                 onPressIn={() => setIsPressed(true)}
                 onPress={handleSave}
@@ -159,7 +164,6 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         position: 'absolute',
         top: 60,
-        paddingLeft: 15,
         zIndex: 1,
     },
     recipeHeader: {
