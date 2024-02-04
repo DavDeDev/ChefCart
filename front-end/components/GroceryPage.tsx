@@ -8,7 +8,7 @@ export default function GroceryPage({ route, navigation }: GroceryProps) {
     const grocery = route.params.grocery;
     
     const [entry, setEntry] = useState(
-        grocery.items.map((item, i) => {
+        grocery.content.map((item, i) => {
             return {content: item, isChecked: false}
         })
     );
@@ -41,6 +41,10 @@ export default function GroceryPage({ route, navigation }: GroceryProps) {
                 keyExtractor={makeKey}
                 style={styles.scroller}
             />
+            <Text style={{fontSize: 20, paddingTop: 10}}>
+                <Text style={{fontWeight: 'bold', fontSize: 25, lineHeight: 25}}>Total: </Text>
+                { grocery.price }
+            </Text>
         </View>
     )
 }
@@ -60,6 +64,7 @@ const styles = StyleSheet.create({
     },
     scroller: {
         backgroundColor: 'rgba(249, 245, 237, 0.8)',
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
+        width: '100%'
     }
 })

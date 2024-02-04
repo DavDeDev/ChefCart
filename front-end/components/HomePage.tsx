@@ -14,7 +14,7 @@ export default function HomePage({route, navigation}: HomeProps) {
         getRecipes(setRecipes)
     }, [])
     useEffect(() => {
-        setLeftRecipes(recipes.slice(recipes.length / 2))
+        setLeftRecipes(recipes.slice(0, recipes.length / 2))
         setRightRecipes(recipes.slice(recipes.length / 2, recipes.length))
     }, [recipes])
 
@@ -52,12 +52,12 @@ interface PostProps {
     key: string
 }
 
-function Post({recipe, key}: PostProps) {
+function Post({recipe, key: postID}: PostProps) {
     const navigation = useNavigation()
     return(
         <Pressable onPress={() => navigation.navigate("RecipePage", {recipe: recipe})}>
             <View style={{flex: 0, marginHorizontal: 4}}>
-                <Image style={styles.post} key={key} source={recipe.photo} alt={recipe.name} 
+                <Image style={styles.post} key={postID} source={recipe.photo} alt={recipe.name} 
                     height={Math.random() * (250 - 160) + 160}/>
                 <Text style={{fontWeight: "bold", fontSize: 12}}> {recipe.name} </Text>
             </View>
@@ -66,10 +66,9 @@ function Post({recipe, key}: PostProps) {
 }
 
 async function getRecipes(callback: React.Dispatch<React.SetStateAction<Recipe[]>>) {
-    let recipes = []
-    for (let i = 0; i < 20; i++) {
-        recipes.push(exampleRecipe);
-    }
+    let fetchRes = await fetch("http://35.153.180.4/recipes")
+    let recipesJson = await fetchRes.json()
+    let recipes: Recipe[] = recipesJson.recipes
     callback(recipes)
 }
 

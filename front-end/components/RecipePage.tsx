@@ -1,5 +1,5 @@
 import { ScrollView, Text, Image, ImageBackground, Button, View, Icon, ChevronLeftIcon, ButtonText, HStack, createIcon, ButtonIcon } from '@gluestack-ui/themed';
-import {  Recipe, Headers, Info, Additionals, RecipeProps, exampleGrocery } from './DataModel';
+import {  Recipe, Headers, Info, Additionals, RecipeProps, exampleGrocery, Grocery } from './DataModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet } from 'react-native';
 import { Path, Circle } from 'react-native-svg';
@@ -30,6 +30,30 @@ export default function RecipePage(navProps: RecipeProps) {
             </>
         )
     })
+    const handleCartButton = async () => {
+        let numRecipes = await AsyncStorage.getItem('NumRecipe')
+        if (numRecipes === null)
+            return;
+        let recipes: Recipe[] = []
+        let groceries: Grocery[] = [];
+        for (let i = 0; i < parseInt(numRecipes); i++) {
+            let cached = await AsyncStorage.getItem(''+i)
+            if (cached === null)
+                continue;
+            recipes.push(JSON.parse(cached))
+        }
+
+        let res = await fetch("http://35.153.180.4/grocery", {
+            method: "POST",
+            body: JSON.stringify(recipes),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }) 
+        
+        let resJson = await res.json()
+        navigation.navigate('GroceryPage', { grocery: resJson})
+    }
 
     return (
         <View style={styles.page}>
@@ -40,7 +64,7 @@ export default function RecipePage(navProps: RecipeProps) {
                 <RecipeContent recipe={recipe}/>
             </ScrollView>
 
-            <Button style={styles.cartButton} onPress={() => navigation.navigate('GroceryPage', { grocery: exampleGrocery })}>
+            <Button style={styles.cartButton} onPress={handleCartButton}>
                 <Icon as={cartIcon} style={{width: 50, height: 50}}/>
             </Button>
         </View>

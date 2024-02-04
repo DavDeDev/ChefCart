@@ -25,7 +25,8 @@ interface Recipe {
 }
 
 interface Grocery {
-    items: string[]
+    content: string[],
+    price: string
 }
 
 type StackParamList = {
@@ -69,7 +70,7 @@ let exampleRecipe: Recipe = {
 }
 
 let exampleGrocery: Grocery = {
-    items: [
+    content: [
         "3 pounds boneless pork shoulder/pork butt",
         "Granulated white sugar",
         "Salt",
@@ -83,7 +84,8 @@ let exampleGrocery: Grocery = {
         "Red food coloring (optional)",
         "Cloves of garlic",
         "Maltose or honey"
-    ]
+    ],
+    price: "$20"
 }
 
 export type { Recipe, Headers, Info, Additionals, Grocery, RecipeProps, GroceryProps, HomeProps, StackParamList };
