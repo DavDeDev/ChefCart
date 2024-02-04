@@ -3,6 +3,7 @@ import firebase_admin
 import api_key
 from firebase_admin import credentials
 from firebase_admin import db
+from typing import List
 import recipe
 import chat
 
@@ -20,14 +21,17 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/recipe_test")
+@app.get("/recipes")
 async def root():
     return ref.order_by_key().get()
 
-@app.post("/recipe")
-async def create_item(recipe: recipe.Recipe):
-    result = ", ".join(recipe.headers.ingredients)
-    grocerylist = chat.groceries(result)
+@app.post("/grocery")
+async def create_item(recipes: List[recipe.Recipe]):
+    results = [", ".join(recipe.headers.ingredients) for recipe in recipes]
+    prompt = ""
+    for i, ingr in enumerate(results):
+        prompt += "Recipe " + str(i) + ": " + ingr + "\n"
+    grocerylist = chat.groceries(prompt)
     groceries = comma(grocerylist)
     return {"content": groceries}
 
