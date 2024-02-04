@@ -14,7 +14,7 @@ def groceries(str):
         messages=[
             {
                 "role": "user",
-                "content": "From these recipes:\n" + str + "make a grocery list using this template: 1. meats/poultry and vegetables/ canned foods, example: '20 pounds of meat' / '3kg of pork' \
+                "content": "From these recipes:\n" + str + "make a grocery list with the total estimated cost using this template: 1. meats/poultry and vegetables/ canned foods, example: '20 pounds of meat' / '3kg of pork' \
                     / '20 pounds of bok choy' / '1 kg of red beans' / '3 cans of tuna, 2. spices and condiments, example: 'soy sauce' / 'black pepper' / 'a pack of chilis,' etc. instead of \
                         specifying the exact amount needed since grocery stores sell them by the packaged size. 3. remove unnessacry ingredients such as hot water or cold ice or etc. \
                             Then, combine it into one list without headings or separation, just one grocery list."

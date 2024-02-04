@@ -33,7 +33,16 @@ async def create_item(recipes: List[recipe.Recipe]):
         prompt += "Recipe " + str(i) + ": " + ingr + "\n"
     grocerylist = chat.groceries(prompt)
     groceries = comma(grocerylist)
-    return {"content": groceries}
+    lastItem = ""
+    price = ""
+    for c in groceries[-1]:
+        if not (c.isalpha() or c == ' '):
+            idx = groceries[-1].find('$')
+            price = groceries[-1][idx:idx+3]
+            break
+        lastItem += c
+    groceries[-1] = lastItem
+    return {"content": groceries, "price" : price}
 
 def comma(entry):
     if "," or ", " or "." or ". " in entry: 
